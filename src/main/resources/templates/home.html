@@ -1,0 +1,15 @@
+<html xmlns:th="https://thymeleaf.org">
+<head>
+<title>Home|Web</title>
+</head>
+<body>
+<h1>Hello Home</h1>
+<h1 th:text="${message}"></h1>
+<table>
+<tr th:each="task: ${tasks}">
+    <td th:text="${task}" />
+</tr>
+</table>
+
+</body>
+</html>
