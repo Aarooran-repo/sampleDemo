@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.sampleDemo.model.Student;
@@ -16,6 +17,7 @@ import com.example.demo.sampleDemo.repository.IStudentRepository;
 public class StudentController {
 	@Autowired
 	IStudentRepository isRepo;
+
 	@GetMapping("/signup")
 	public String showSignUpForm(Student student) {
 		return "add-student";
@@ -28,6 +30,23 @@ public class StudentController {
 		}
 
 		isRepo.save(student);
+		model.addAttribute("students", isRepo.findAll());
+		return "student-index";
+	}
+
+	@GetMapping("/edit/{id}")
+	public String showUpdateForm(@PathVariable("id") long id, Model model) {
+		Student student = isRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+
+		model.addAttribute("student", student);
+		return "update-student";
+	}
+
+	@GetMapping("/delete/{id}")
+	public String deleteStudent(@PathVariable("id") long id, Model model) {
+		Student student = isRepo.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+		isRepo.delete(student);
 		model.addAttribute("students", isRepo.findAll());
 		return "student-index";
 	}

@@ -15,7 +15,6 @@ import com.example.demo.sampleDemo.repository.IUserRepository;
 public class AppStartupRunner implements ApplicationRunner {
 	@Autowired
 	IUserRepository userRepo;
-
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		
